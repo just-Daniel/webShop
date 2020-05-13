@@ -22,12 +22,6 @@ Item.belongsToMany(Image, {
   onDelete: 'cascade'});
 Image.belongsToMany(Item, {through: 'ItemsImages'});
 
-User.hasOne(ShoppingCartItem, {
-  foreignKey: {
-    allowNull: false,
-  }});
-ShoppingCartItem.belongsTo(User);
-
 sequelize.sync({force: true})
     .then(() => console.log('db started'))
     .catch((e) => console.log('Error start' + e));
