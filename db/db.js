@@ -4,6 +4,7 @@ require('sequelize-hierarchy')(Sequelize);
 sequelize = new Sequelize('webShop', 'root', 'password', {
   dialect: 'mysql',
   host: 'localhost',
+  define: {timestamps: false},
 });
 console.log('we are here');
 
@@ -11,9 +12,21 @@ const Category = require('../models/category');
 const Image = require('../models/image');
 const User = require('../models/user');
 const Item = require('../models/item');
-const ShoppingCartItem = require('../models/shoppingCartItem');
+const ShoppingCartItem = require('../models/shopingCartItem');
 
-// Item.hasMany(Image, {onDelete: 'cascade'});
+Category.hasMany(Item, {foreignKey: {allowNull: false}});
+Item.belongsTo(Category);
+
+Item.belongsToMany(Image, {
+  through: 'ItemsImages',
+  onDelete: 'cascade'});
+Image.belongsToMany(Item, {through: 'ItemsImages'});
+
+User.hasOne(ShoppingCartItem, {
+  foreignKey: {
+    allowNull: false,
+  }});
+ShoppingCartItem.belongsTo(User);
 
 sequelize.sync({force: true})
     .then(() => console.log('db started'))

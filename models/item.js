@@ -3,22 +3,6 @@ const Item = sequelize.define('item', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  category: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'categories',
-      key: 'id',
-    },
-  },
-  image: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'images',
-      key: 'id',
-    },
-  },
   description: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -39,6 +23,9 @@ const Item = sequelize.define('item', {
     type: Sequelize.STRING,
     allowNull: false,
   },
+},
+{
+  timestamps: true,
 });
 
 module.exports = Item;

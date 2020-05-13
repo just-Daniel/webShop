@@ -1,17 +1,9 @@
 const ShopingCartItem = sequelize.define('shopingCartItem', {
-  items: {
+  itemId: {
     type: Sequelize.INTEGER,
     allowNull: false,
     references: {
       model: 'items',
-      key: 'id',
-    },
-  },
-  user: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'users',
       key: 'id',
     },
   },
