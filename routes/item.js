@@ -1,7 +1,9 @@
 const Item = require('../models/item');
 
 app.get('/item', (request, response) => {
-  res.send('Hello World');
+  Item.findAll({hierarchy: true})
+      .then((row) => response.send(row))
+      .catch((err) => response.status(500).send(err));
 });
 
 app.post('/item', (request, response) => {

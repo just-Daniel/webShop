@@ -5,7 +5,6 @@ const Category = sequelize.define('category', {
   },
   parentId: {
     type: Sequelize.INTEGER,
-    allowNull: false,
     hierarchy: true,
   },
 });
