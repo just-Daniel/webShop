@@ -1,22 +1,27 @@
 const Item = require('../models/item');
 
 app.get('/item', (request, response) => {
-  Item.findAll({hierarchy: true})
+  Item.findAll()
       .then((row) => response.send(row))
       .catch((err) => response.status(500).send(err));
 });
 
 app.post('/item', (request, response) => {
   const data = request.query;
-  Item.create({
-    name: data.name,
-    category: data.category,
-    image: data.image,
-    description: data.description,
-    price: data.price,
-    count: data.count,
-    rating: data.rating,
-    isEnabled: data.isEnabled,
-  }).then(() => response.status(200).send('OK'))
-      .catch((err) => response.status(400).send('Error created item'));
+
+  if (data.name && data.description && data.price && data.count &&
+    data.rating && data.isEnabled && data.categoryId) {
+    Item.create({
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      count: data.count,
+      rating: data.rating,
+      isEnabled: data.isEnabled,
+      categoryId: data.categoryId,
+    }).then(() => response.send({status: 'OK'}))
+        .catch((err) => response.status(500).send('Error created item' + err));
+  } else {
+    response.status(500).send({error: 'rows are required'});
+  }
 });
