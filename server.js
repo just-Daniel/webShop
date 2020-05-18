@@ -9,6 +9,7 @@ require('./routes/auth/auth');
 require('./routes/image');
 require('./routes/category');
 require('./routes/item');
+require('./routes/itemImage');
 require('./routes/shopingCartItem');
 
 const PORT = config.get('port');

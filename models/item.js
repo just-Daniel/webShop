@@ -20,8 +20,9 @@ const Item = sequelize.define('item', {
     allowNull: false,
   },
   isEnabled: {
-    type: Sequelize.STRING,
+    type: Sequelize.BOOLEAN,
     allowNull: false,
+    defaultValue: true,
   },
 },
 {

@@ -17,10 +17,8 @@ const ShoppingCartItem = require('../models/shopingCartItem');
 Category.hasMany(Item, {foreignKey: {allowNull: false}});
 Item.belongsTo(Category);
 
-Item.belongsToMany(Image, {
-  through: 'ItemsImages',
-  onDelete: 'cascade'});
-Image.belongsToMany(Item, {through: 'ItemsImages'});
+Item.belongsToMany(Image, {through: 'ItemImages'});
+Image.belongsToMany(Item, {through: 'ItemImages'});
 
 sequelize.sync()
 // sequelize.sync({force: true})
