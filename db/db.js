@@ -20,6 +20,12 @@ Item.belongsTo(Category);
 Item.belongsToMany(Image, {through: 'ItemImages'});
 Image.belongsToMany(Item, {through: 'ItemImages'});
 
+Item.hasOne(ShoppingCartItem, {foreignKey: {allowNull: false}});
+ShoppingCartItem.belongsTo(Item);
+
+User.hasOne(ShoppingCartItem, {foreignKey: {allowNull: false}});
+ShoppingCartItem.belongsTo(User);
+
 sequelize.sync()
 // sequelize.sync({force: true})
     .then(() => console.log('db started'))

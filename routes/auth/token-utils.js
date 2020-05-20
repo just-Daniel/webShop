@@ -26,7 +26,7 @@ const getUserToken = (request) => {
   const promise = new Promise((resolve, reject) => {
     getDecodedToken(request)
         .then((decoded) => User.findOne({where: {
-          id: decoded.id, // name?? id??
+          id: decoded.id,
           password: decoded.password,
         }}).then((row) => resolve(row)))
         .catch((err) => reject(err));
