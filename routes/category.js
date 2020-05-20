@@ -1,29 +1,25 @@
-const Category = require('../models/category');
+const dac = require('../dac/category');
 
 app.get('/category', (request, response) => {
-  Category.findAll({hierarchy: true})
-      .then((row) => response.send(row))
-      .catch((err) => response.status(500).send(err));
+  dac.getAllCategories()
+      .then((res) => response.send(res))
+      .catch((err) => response.status(err.status).send(err.message));
 });
 
 
 app.get('/category/root', (request, response) => {
-  Category.findAll({
-    where: {hierarchyLevel: 1},
-    // include: [{model: Category, as: 'ancestors'}]
-  }).then((row) => response.send(row))
-      .catch((err) => response.status(500).send(err));
+  dac.getAllRootCategories()
+      .then((res) => response.send(res))
+      .catch((err) => response.status(err.status).send(err.message));
 });
 
 
 app.post('/category', (request, response) => {
   const data = request.query;
   if (data.name) {
-    Category.create({
-      name: data.name,
-      parentId: data.parentId,
-    }).then((row) => response.send(row))
-        .catch((err) => response.status(500).send(err));
+    dac.insertCategory(data.name, data.parentId)
+        .then((row) => response.send(row))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'name is required'});
   }
@@ -34,20 +30,9 @@ app.put('/category', (request, response) => {
   const data = request.query;
 
   if (data.id && data.name) {
-    Category.findByPk(data.id)
-        .then((category) => {
-          if (category) {
-            Category.update({name: data.name}, {
-              where: {
-                id: category.id,
-              },
-            }).then(() => response.send({status: 'OK'}))
-                .catch((err) => response.status(500).send(err));
-          } else {
-            response.status(400).send({error: 'Id not found'});
-          }
-        })
-        .catch((err) => response.status(400).send({error: 'Id is incorrect' + err}));
+    dac.updateCategory(data.id, data.name)
+        .then((res) => response.send(res))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'Id and name required'});
   }
@@ -58,18 +43,9 @@ app.delete('/category', (request, response) => {
   const data = request.query;
 
   if (data.id) {
-    Category.findByPk(data.id)
-        .then((category) => {
-          if (category) {
-            Category.destroy({where: {id: category.id}})
-                .then(() => response.send({status: 'OK'}))
-                .catch((err) => response.status(500).send(
-                    'Unable to delete category' + err));
-          } else {
-            response.status(400).send({error: 'Id not found'});
-          }
-        })
-        .catch((err) => response.status(400).send({error: 'Id is incorrect' + err}));
+    dac.deleteCategory(data.id)
+        .then((res) => response.send(res))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'Id is required'});
   }
