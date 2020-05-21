@@ -1,9 +1,9 @@
-const Item = require('../models/item');
+const dac = require('../dac/item');
 
 app.get('/item', (request, response) => {
-  Item.findAll()
-      .then((row) => response.send(row))
-      .catch((err) => response.status(500).send(err));
+  dac.getAllItems()
+      .then((items) => response.send(items))
+      .catch((err) => response.status(err.status).send(err.message));
 });
 
 app.post('/item', (request, response) => {
@@ -11,15 +11,10 @@ app.post('/item', (request, response) => {
 
   if (data.name && data.description && data.price && data.count &&
     data.rating && data.categoryId) {
-    Item.create({
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      count: data.count,
-      rating: data.rating,
-      categoryId: data.categoryId,
-    }).then(() => response.send({status: 'OK'}))
-        .catch((err) => response.status(500).send('Error created item ' + err));
+    dac.insertItem(data.name, data.description, data.price,
+        data.count, data.rating, data.categoryId)
+        .then((item) => response.send(item))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(500).send({error: 'rows are required'});
   }
@@ -30,22 +25,10 @@ app.put('/item', (request, response) => {
   const data = request.query;
 
   if (data.id) {
-    Item.findByPk(data.id)
-        .then((item) => {
-          if (item) {
-            Item.update({
-              name: data.name,
-              description: data.description,
-              price: data.price,
-              count: data.count,
-              rating: data.rating,
-            }, {where: {id: item.id}}).then(() => response.send({status: 'OK'}))
-                .catch((err) => response.status(500).send('Error updated item ' + err));
-          } else {
-            response.status(400).send({error: 'Id not found'});
-          }
-        })
-        .catch((err) => response.status(400).send({error: 'Id is incorrect ' + err}));
+    dac.updateItem(data.id, data.name, data.description,
+        data.price, data.count, data.rating)
+        .then((item) => response.send(item))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'Id is required'});
   }
@@ -55,18 +38,9 @@ app.put('/item/admin', (request, response) => {
   const data = request.query;
 
   if (data.id) {
-    Item.findByPk(data.id)
-        .then((item) => {
-          if (item) {
-            Item.update({
-              isEnabled: data.isEnabled,
-            }, {where: {id: item.id}}).then(() => response.send({status: 'OK'}))
-                .catch((err) => response.status(500).send('Error updated item ' + err));
-          } else {
-            response.status(400).send({error: 'Id not found'});
-          }
-        })
-        .catch((err) => response.status(400).send({error: 'Id is incorrect ' + err}));
+    dac.accessEnableItem(data.id, data.isEnabled)
+        .then((status) => response.send(status))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'Id is required'});
   }
@@ -77,18 +51,9 @@ app.delete('/item', (request, response) => {
   const data = request.query;
 
   if (data.id) {
-    Item.findByPk(data.id)
-        .then((item) => {
-          if (item) {
-            Item.destroy({where: {id: item.id}})
-                .then(()=> response.send({status: 'OK'}))
-                .catch((err) => response.status(500).send({
-                  error: 'Error deleted item' + err}));
-          } else {
-            response.status(400).send({error: 'Id not found'});
-          }
-        })
-        .catch((err) => response.status(400).send({error: 'Id is incorrect ' + err}));
+    dac.deleteItem(data.id)
+        .then((status)=> response.send(status))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'Id is required'});
   }

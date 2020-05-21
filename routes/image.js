@@ -1,18 +1,18 @@
-const Image = require('../models/image');
+const dac = require('../dac/image');
 
 app.get('/image', (request, response) => {
-  Image.findAll()
+  dac.getAllImages()
       .then((images) => response.send(images))
-      .catch((err) => response.send(err));
+      .catch((err) => response.status(err.status).send(err.message));
 });
 
 
 app.post('/image', (request, response) => {
   const data = request.query;
   if (data.url) {
-    Image.create({url: data.url})
+    dac.insertImage(data.url)
         .then((row) => response.send(row))
-        .catch((err) => response.status(500).send(err));
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'URL images is required'});
   }
@@ -22,18 +22,9 @@ app.delete('/image', (request, response) => {
   const data = request.query;
 
   if (data.id) {
-    Image.findByPk(data.id)
-        .then((image) => {
-          if (image) {
-            Image.destroy({where: {id: image.id}})
-                .then(() => response.send({status: 'OK'}))
-                .catch((err) => response.status(500).send(
-                    'Unable to delete image' + err));
-          } else {
-            response.status(400).send({error: 'Id not found'});
-          }
-        })
-        .catch((err) => response.status(400).send({error: 'Id is incorrect' + err}));
+    dac.deleteImage(data.id)
+        .then((res) => response.send(res))
+        .catch((err) => response.status(err.status).send(err.message));
   } else {
     response.status(400).send({error: 'Id images is required'});
   }
