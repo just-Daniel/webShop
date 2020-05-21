@@ -1,9 +1,3 @@
-// const ShopCart = require('../models/shopingCartItem');
-// const Item = require('../models/item');
-// const User = require('../models/user');
-// const tokenUtils = require('./auth/token-utils');
-// const Category = require('../models/category');
-
 const dac = require('../dac/shopingCartItem');
 
 app.post('/cart/add-item', (request, response) => {
