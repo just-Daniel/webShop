@@ -41,7 +41,7 @@ const updateItem = (id, name, description, price, count, rating) => {
                 .then(() => resolve({status: 'OK'}))
                 .catch((err) => reject(new ResponseError(err, 500)));
           } else {
-            reject(new ResponseError('Id not found', 400));
+            reject(new ResponseError('Id not found', 404));
           }
         })
         .catch((err) => reject(new ResponseError('Id is incorrect ' + err, 400)));
@@ -61,7 +61,7 @@ const accessEnableItem = (id, isEnabled) => {
                 .then(() => resolve({status: 'OK'}))
                 .catch((err) => reject(new ResponseError(err, 500)));
           } else {
-            reject(new ResponseError('Id not found', 400));
+            reject(new ResponseError('Id not found', 404));
           }
         })
         .catch((err) => reject(new ResponseError('Id is incorrect ' + err, 400)));
@@ -79,7 +79,7 @@ const deleteItem = (id) => {
                 .then(()=> resolve({status: 'OK'}))
                 .catch((err) => reject(new ResponseError(err, 500)));
           } else {
-            reject(new ResponseError('Id not found', 400));
+            reject(new ResponseError('Id not found', 404));
           }
         })
         .catch((err) => reject(new ResponseError('Id is incorrect ' + err, 400)));

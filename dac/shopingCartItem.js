@@ -52,41 +52,6 @@ const removeItem = (id) => {
 };
 
 
-// const addOneOrMoreItems = (id, request) => {
-//   const promise = new Promise((resolve, reject) => {
-//     const sumId = id.match(/\d+/gi).map(Number);
-//     const result = sumId.length;
-
-//     const addItemToCart = () => {
-//       if (sumId.length === 0) {
-//         resolve({status: `Add ${result} items`});
-//       } else {
-//         Item.findByPk(sumId[0], {raw: true})
-//             .then((item) => {
-//               if (item) {
-//                 tokenUtils.getUserToken(request)
-//                     .then((user) => {
-//                       ShopCart.create({
-//                         itemId: item.id,
-//                         userId: user.id,
-//                         count: item.count,
-//                       }).catch((err) => reject(new ResponseError(err, 500)));
-//                     })
-//                     .catch((err) => reject(new ResponseError(err, 400)));
-//                 sumId.shift(0);
-//                 addItemToCart();
-//               } else {
-//                 reject(new ResponseError('Id not found', 404));
-//               }
-//             })
-//             .catch((err) => reject(new ResponseError('Incorrect query' + err, 400)));
-//       }
-//     };
-//     addItemToCart();
-//   });
-//   return promise;
-// };
-
 const addOneOrMoreItems = (id, addItem, request) => {
   const promise = new Promise((resolve, reject) => {
     ShopCart.findByPk(id, {
@@ -117,34 +82,6 @@ const addOneOrMoreItems = (id, addItem, request) => {
   return promise;
 };
 
-
-// const removeOneOrMoreItems = (id) => {
-//   const promise = new Promise((resolve, reject) => {
-//     const sumId = id.match(/\d+/gi);
-//     const result = sumId.length;
-
-//     const removeItemWithCart = () => {
-//       if (sumId.length === 0) {
-//         resolve({status: `Removed ${result} items`});
-//       } else {
-//         ShopCart.findByPk(sumId[0], {raw: true})
-//             .then((item) => {
-//               if (item) {
-//                 ShopCart.destroy({where: {id: item.id}})
-//                     .catch((err) => reject(new ResponseError(err, 500)));
-//                 sumId.shift(0);
-//                 removeItemWithCart();
-//               } else {
-//                 reject(new ResponseError(`Id ${sumId[0]} not found`, 404));
-//               }
-//             })
-//             .catch((err) => reject(new ResponseError('Incorrect query' + err, 400)));
-//       }
-//     };
-//     removeItemWithCart();
-//   });
-//   return promise;
-// };
 
 const removeOneOrMoreItems = (id, subtractItem) => {
   const promise = new Promise((resolve, reject) => {

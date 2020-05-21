@@ -30,7 +30,7 @@ const deleteImage = (id) => {
                 .catch((err) => reject(new ResponseError(
                     'Unable to delete image' + err, 500)));
           } else {
-            reject(new ResponseError('Id not found', 400));
+            reject(new ResponseError('Id not found', 404));
           }
         })
         .catch((err) => reject(new ResponseError('Id is incorrect', 400)));

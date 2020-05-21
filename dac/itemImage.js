@@ -20,7 +20,7 @@ const addImageToItem = (itemId, imageId) => {
                 .catch((err) => reject(new ResponseError(
                     'Id image is incorrect ' + err, 400)));
           } else {
-            reject(new ResponseError('Item not found', 400));
+            reject(new ResponseError('Item not found', 404));
           }
         })
         .catch((err) => reject(new ResponseError('Id item is incorrect ' + err, 400)));
@@ -48,7 +48,7 @@ const removeImageFromItem = (itemId, imageId) => {
                 })
                 .catch((err) => reject(new ResponseError('Images ' + err, 500)));
           } else {
-            reject(new ResponseError('Item not found', 400));
+            reject(new ResponseError('Item not found', 404));
           }
         })
         .catch((err) => reject(new ResponseError('Id item is incorrect ' + err, 400)));
