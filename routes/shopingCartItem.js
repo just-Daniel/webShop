@@ -13,19 +13,6 @@ app.post('/cart/add-item', (request, response) => {
 });
 
 
-app.post('/cart/add-one-more-item', (request, response) => {
-  const data = request.query;
-
-  if (data.id) {
-    dac.addOneOrMoreItems(data.id, request)
-        .then((item) => response.send(item))
-        .catch((err) => response.status(err.status).send(err.message));
-  } else {
-    response.status(400).send({error: 'Id is required'});
-  }
-});
-
-
 app.delete('/cart/remove-item', (request, response) => {
   const data = request.query;
 
@@ -39,11 +26,24 @@ app.delete('/cart/remove-item', (request, response) => {
 });
 
 
-app.delete('/cart/remove-one-more-item', (request, response) => {
+app.put('/cart/add-one-more-item', (request, response) => {
   const data = request.query;
 
   if (data.id) {
-    dac.removeOneOrMoreItems(data.id)
+    dac.addOneOrMoreItems(data.id, data.addItem, request)
+        .then((item) => response.send(item))
+        .catch((err) => response.status(err.status).send(err.message));
+  } else {
+    response.status(400).send({error: 'Id is required'});
+  }
+});
+
+
+app.put('/cart/remove-one-more-item', (request, response) => {
+  const data = request.query;
+
+  if (data.id) {
+    dac.removeOneOrMoreItems(data.id, data.subtractItem)
         .then((item) => response.send(item))
         .catch((err) => response.status(err.status).send(err.message));
   } else {
