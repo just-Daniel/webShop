@@ -200,12 +200,7 @@ const purchaseItems = () => {
   return promise;
 };
 
-module.exports.addItem = addItem;
-module.exports.addOneOrMoreItems = addOneOrMoreItems;
-module.exports.removeItem = removeItem;
-module.exports.removeOneOrMoreItems = removeOneOrMoreItems;
-module.exports.getAllItems = getAllItems;
-module.exports.getCountsItems = getCountsItems;
-module.exports.getItemAndPrice = getItemAndPrice;
-module.exports.getOverallPriceItems = getOverallPriceItems;
-module.exports.purchaseItems = purchaseItems;
+module.exports = {
+  addItem, addOneOrMoreItems, removeItem, removeOneOrMoreItems, getAllItems,
+  getCountsItems, getItemAndPrice, getOverallPriceItems, purchaseItems,
+};

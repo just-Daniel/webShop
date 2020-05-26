@@ -87,8 +87,6 @@ const deleteItem = (id) => {
   return promise;
 };
 
-module.exports.getAllItems = getAllItems;
-module.exports.insertItem = insertItem;
-module.exports.updateItem = updateItem;
-module.exports.accessEnableItem = accessEnableItem;
-module.exports.deleteItem = deleteItem;
+module.exports = {
+  getAllItems, insertItem, updateItem, accessEnableItem, deleteItem,
+};

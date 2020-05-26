@@ -38,6 +38,6 @@ const deleteImage = (id) => {
   return promise;
 };
 
-module.exports.getAllImages = getAllImages;
-module.exports.insertImage = insertImage;
-module.exports.deleteImage = deleteImage;
+module.exports = {
+  getAllImages, insertImage, deleteImage,
+};

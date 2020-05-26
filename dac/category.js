@@ -71,8 +71,6 @@ const deleteCategory = (id) => {
 };
 
 
-module.exports.getAllCategories = getAllCategories;
-module.exports.getAllRootCategories = getAllRootCategories;
-module.exports.insertCategory = insertCategory;
-module.exports.updateCategory = updateCategory;
-module.exports.deleteCategory = deleteCategory;
+module.exports = {
+  getAllCategories, getAllRootCategories, insertCategory, updateCategory, deleteCategory,
+};
